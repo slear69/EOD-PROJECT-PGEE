@@ -1,8 +1,10 @@
 const signInWindow = document.getElementById("window");
+const LoginWindow = document.getElementById("windowLog");
 var textName = "";
 var textPassword = "";
 
 drag(signInWindow);
+drag(LoginWindow);
 function drag(element) { //this function was coppied from another of my projects 
   const bar = element.querySelector(".logo")
   var initialX = 0;
