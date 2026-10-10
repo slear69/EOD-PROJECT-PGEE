@@ -42,15 +42,58 @@ function drag(element) { //this function was coppied from another of my projects
 
 
 }
-function SaveInfo(){
-  if (Username_required() == false ) {return;}
-	if (Password_required() == false ) {return;}
-	textName = document.getElementById("username").value.trim();
-	textPassword = document.getElementById("password").value.trim();
-  console.log("Username: " + textName);
-  console.log("Password: " + textPassword);
-  document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('./Pics/Bonnie.jpg')"; 
-	 signInWindow.style.display = "none";
+function SaveInfo() {
+  if (Username_required() === false) return;
+  if (Password_required() === false) return;
+
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+
+  // Get existing accounts, or create an empty object.
+  const accounts = JSON.parse(
+    localStorage.getItem("accounts") || "{}"
+  );
+
+  // Check whether the username already exists.
+  if (accounts[username]) {
+    alert("This username already exists!");
+    return;
+  }
+
+  // Save the account locally.
+  accounts[username] = {
+    password: password
+  };
+
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+
+  alert("Account saved!");
+
+  signInWindow.style.display = "none";
+}
+
+function Login() {
+  const username = document.getElementById("NAMEtextLog").value.trim();
+  const password = document.getElementById("PASSWORDtextLog").value;
+
+  const accounts = JSON.parse(
+    localStorage.getItem("accounts") || "{}"
+  );
+
+  if (!accounts[username]) {
+    alert("Username does not exist!");
+    return;
+  }
+
+  if (accounts[username].password !== password) {
+    alert("Incorrect password!");
+    return;
+  }
+
+  alert("Login successful!");
+  console.log("Username entered:", JSON.stringify(username));
+  console.log("Password matches:", accounts[username]?.password === password);  
+  LoginWindow.style.display = "none";
 }
 
 function Username_required() {
