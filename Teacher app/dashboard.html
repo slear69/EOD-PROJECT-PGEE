@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Dashboard</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: #172033;
+        font-family: Arial, sans-serif;
+        background:
+          linear-gradient(rgba(13, 39, 78, 0.72), rgba(13, 39, 78, 0.82)),
+          url("./Pics/kirk2.png") center / cover fixed no-repeat;
+      }
+
+      .dashboard {
+        width: min(1440px, 100%);
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 32px clamp(18px, 5vw, 72px) 48px;
+      }
+
+      .topbar {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 20px;
+        padding: 0 0 24px;
+        color: #fff;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+      }
+
+      .brand {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+
+      .welcome {
+        margin: 0;
+        text-align: center;
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        font-weight: 500;
+      }
+
+      .teacher {
+        display: flex;
+        align-items: center;
+        justify-self: end;
+        gap: 12px;
+        font-size: 0.95rem;
+      }
+
+      .teacher-avatar {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        border-radius: 50%;
+        color: #164078;
+        background: #f5f6f8;
+        font-weight: 700;
+      }
+
+      .content {
+        margin-top: 34px;
+        padding: clamp(22px, 4vw, 42px);
+        border: 1px solid rgba(148, 190, 244, 0.35);
+        border-radius: 19px;
+        background: rgba(14, 43, 79, 0.96);
+        box-shadow: 0 25px 55px rgba(4, 12, 26, 0.38);
+      }
+
+      .content-heading {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 28px;
+      }
+
+      .content-heading h1 {
+        margin: 0 0 7px;
+        color: #f8fbff;
+        font-size: clamp(1.6rem, 3vw, 2rem);
+        letter-spacing: -0.03em;
+      }
+
+      .content-heading p {
+        margin: 0;
+        color: #c0d3eb;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        color: #e1edfb;
+        font-size: 0.9rem;
+      }
+
+      .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .legend-color {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+      }
+
+      .legend-color.present {
+        background: #22c55e;
+      }
+
+      .legend-color.absent {
+        background: #ef4444;
+      }
+
+      .student-list {
+        max-height: min(62vh, 620px);
+        overflow-y: auto;
+        padding: 2px 8px 8px 2px;
+        scrollbar-color: #8eafd4 transparent;
+        scrollbar-width: thin;
+      }
+
+      .student-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .student {
+        min-height: 138px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 15px;
+        padding: 20px;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        box-shadow: 0 4px 14px rgba(3, 16, 34, 0.2);
+      }
+
+      .student.present {
+        border-color: #34d399;
+        color: #fff;
+        background: #15803d;
+      }
+
+      .student.absent {
+        border-color: #f87171;
+        color: #fff;
+        background: #b91c1c;
+      }
+
+      .student-name {
+        font-size: 1.05rem;
+        font-weight: 600;
+      }
+
+      .student-id {
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 0.82rem;
+      }
+
+      @media (max-width: 900px) {
+        .student-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 650px) {
+        .dashboard {
+          padding-top: 22px;
+        }
+
+        .topbar {
+          grid-template-columns: 1fr auto;
+          row-gap: 18px;
+        }
+
+        .welcome {
+          grid-column: 1 / -1;
+          grid-row: 2;
+        }
+
+        .teacher {
+          grid-column: 2;
+          grid-row: 1;
+        }
+
+        .content-heading {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .student-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
+        }
+
+        .student {
+          min-height: 120px;
+          padding: 16px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .student-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="dashboard">
+      <header class="topbar">
+        <p class="brand">TEACHER PORTAL</p>
+        <h1 class="welcome">Hello, Mr. Kirk</h1>
+        <div class="teacher">
+          <span class="teacher-avatar" aria-label="Mr. Kirk">K</span>
+        </div>
+      </header>
+
+      <section class="content" aria-labelledby="dashboard-title">
+        <div class="content-heading">
+          <div>
+            <h1 id="dashboard-title">Students</h1>
+            <p>Review your class attendance and student details.</p>
+          </div>
+          <div class="legend" aria-label="Attendance colors">
+            <span class="legend-item">
+              <span class="legend-color present" aria-hidden="true"></span>
+              Present
+            </span>
+            <span class="legend-item">
+              <span class="legend-color absent" aria-hidden="true"></span>
+              Absent
+            </span>
+          </div>
+        </div>
+
+        <div class="student-list">
+          <div class="student-grid">
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student present">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

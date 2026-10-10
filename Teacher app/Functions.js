@@ -51,6 +51,7 @@ function SaveInfo(){
   console.log("Password: " + textPassword);
   document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('./Pics/Bonnie.jpg')"; 
 	 signInWindow.style.display = "none";
+   window.location.href = "dashboard.html";
 }
 
 function Username_required() {
