@@ -47,7 +47,7 @@ function SaveInfo(){
 	textPassword = document.getElementById("password").value.trim();
   console.log("Username: " + textName);
   console.log("Password: " + textPassword);
-  document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('./Bonnie.jpg')";
+  document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('./Pics/Bonnie.jpg')"; 
 	 signInWindow.style.display = "none";
 }
 
