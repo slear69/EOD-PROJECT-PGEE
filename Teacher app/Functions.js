@@ -75,6 +75,7 @@ function Login() {
     return;
   }
 
+  localStorage.setItem("currentTeacher", username);
   window.location.href = "dashboard.html";
 }
 
