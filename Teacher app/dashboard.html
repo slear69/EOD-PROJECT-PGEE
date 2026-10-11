@@ -69,6 +69,40 @@
         font-weight: 700;
       }
 
+      .current-hour {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 24px;
+        padding: 18px 22px;
+        border: 1px solid rgba(148, 190, 244, 0.35);
+        border-radius: 12px;
+        color: #fff;
+        background: rgba(14, 43, 79, 0.96);
+      }
+
+      .current-hour-label,
+      .current-hour-detail {
+        margin: 0;
+        color: #c0d3eb;
+      }
+
+      .current-hour-label {
+        font-size: 0.9rem;
+      }
+
+      .current-hour-value {
+        margin: 5px 0 0;
+        font-size: clamp(1.35rem, 3vw, 1.8rem);
+        font-weight: 700;
+      }
+
+      .current-hour-detail {
+        text-align: right;
+        font-size: 0.95rem;
+      }
+
       .content {
         margin-top: 34px;
         padding: clamp(22px, 4vw, 42px);
@@ -110,6 +144,24 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
+      }
+
+      .logout {
+        min-height: 40px;
+        padding: 9px 12px;
+        border: 1px solid #8eafd4;
+        border-radius: 8px;
+        font: inherit;
+      }
+
+      .logout {
+        color: #fff;
+        background: #1d4f85;
+        cursor: pointer;
+      }
+
+      .logout:hover {
+        background: #28649f;
       }
 
       .legend-color {
@@ -201,6 +253,16 @@
           grid-row: 1;
         }
 
+        .current-hour {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .current-hour-detail {
+          text-align: left;
+        }
+
         .content-heading {
           align-items: flex-start;
           flex-direction: column;
@@ -228,11 +290,20 @@
     <main class="dashboard">
       <header class="topbar">
         <p class="brand">TEACHER PORTAL</p>
-        <h1 class="welcome">Hello, Mr. Kirk</h1>
+        <h1 class="welcome" id="welcome">Teacher dashboard</h1>
         <div class="teacher">
-          <span class="teacher-avatar" aria-label="Mr. Kirk">K</span>
+          <span class="teacher-avatar" id="teacher-avatar" aria-hidden="true">T</span>
+          <button class="logout" id="logout-button" type="button">Log out</button>
         </div>
       </header>
+
+      <section class="current-hour" aria-labelledby="current-hour-heading" aria-live="polite">
+        <div>
+          <p class="current-hour-label" id="current-hour-heading">Currently</p>
+          <p class="current-hour-value" id="current-hour-value">Checking schedule...</p>
+        </div>
+        <p class="current-hour-detail" id="current-hour-detail"></p>
+      </section>
 
       <section class="content" aria-labelledby="dashboard-title">
         <div class="content-heading">
@@ -254,7 +325,7 @@
 
         <div class="student-list">
           <div class="student-grid">
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -262,11 +333,7 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
-              <span class="student-name">Student name</span>
-              <span class="student-id">ID NUMBER</span>
-            </article>
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -274,7 +341,7 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -282,11 +349,7 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
-              <span class="student-name">Student name</span>
-              <span class="student-id">ID NUMBER</span>
-            </article>
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -294,11 +357,7 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
-              <span class="student-name">Student name</span>
-              <span class="student-id">ID NUMBER</span>
-            </article>
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -306,11 +365,7 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
-              <span class="student-name">Student name</span>
-              <span class="student-id">ID NUMBER</span>
-            </article>
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -318,7 +373,7 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -326,11 +381,7 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
-              <span class="student-name">Student name</span>
-              <span class="student-id">ID NUMBER</span>
-            </article>
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -338,11 +389,7 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
-              <span class="student-name">Student name</span>
-              <span class="student-id">ID NUMBER</span>
-            </article>
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -350,7 +397,7 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -358,11 +405,7 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
-              <span class="student-name">Student name</span>
-              <span class="student-id">ID NUMBER</span>
-            </article>
-            <article class="student present">
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -370,7 +413,35 @@
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
-            <article class="student present">
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
+              <span class="student-name">Student name</span>
+              <span class="student-id">ID NUMBER</span>
+            </article>
+            <article class="student absent">
               <span class="student-name">Student name</span>
               <span class="student-id">ID NUMBER</span>
             </article>
@@ -378,5 +449,87 @@
         </div>
       </section>
     </main>
+    <script>
+      const teacherName = localStorage.getItem("currentTeacher");
+      if (!teacherName) {
+        window.location.replace("index.html");
+      } else {
+        document.getElementById("welcome").textContent = `Hello, ${teacherName}`;
+        const teacherAvatar = document.getElementById("teacher-avatar");
+        teacherAvatar.textContent = teacherName.charAt(0).toUpperCase();
+        teacherAvatar.setAttribute("aria-label", teacherName);
+      }
+
+      document.getElementById("logout-button").addEventListener("click", () => {
+        localStorage.removeItem("currentTeacher");
+        window.location.href = "index.html";
+      });
+
+      // Build the weekday timeline in minutes after midnight, starting at 8:00 AM.
+      // Classes last 45 minutes; use a 25-minute lunch after Class 3 and 10-minute
+      // breaks after the other classes.
+      const scheduleEntries = [];
+      let nextClassStart = 8 * 60;
+      for (let classNumber = 1; classNumber <= 7; classNumber += 1) {
+        const classEnd = nextClassStart + 45;
+        scheduleEntries.push({
+          label: `Class ${classNumber}`,
+          start: nextClassStart,
+          end: classEnd
+        });
+        nextClassStart = classEnd;
+
+        if (classNumber < 7) {
+          const breakDuration = classNumber === 3 ? 25 : 10;
+          scheduleEntries.push({
+            label: classNumber === 3 ? "Lunch" : "Break",
+            start: nextClassStart,
+            end: nextClassStart + breakDuration
+          });
+          nextClassStart += breakDuration;
+        }
+      }
+
+      // Convert a minute-of-day value to a readable time in the computer's local time format.
+      function formatScheduleTime(minutes) {
+        const date = new Date();
+        date.setHours(Math.floor(minutes / 60), minutes % 60, 0, 0);
+        return date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+      }
+
+      // Compare the local weekday and time with the timeline, then show the matching class,
+      // break, lunch, or whether school has not started or has ended.
+      function updateCurrentHour() {
+        const now = new Date();
+        const display = document.getElementById("current-hour-value");
+        const detail = document.getElementById("current-hour-detail");
+        const weekday = now.getDay();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+        if (weekday === 0 || weekday === 6) {
+          display.textContent = "No classes today";
+          detail.textContent = "The school schedule runs Monday through Friday.";
+          return;
+        }
+
+        const currentEntry = scheduleEntries.find((entry) =>
+          currentMinutes >= entry.start && currentMinutes < entry.end
+        );
+
+        if (currentEntry) {
+          display.textContent = currentEntry.label;
+          detail.textContent = `${formatScheduleTime(currentEntry.start)} - ${formatScheduleTime(currentEntry.end)}`;
+        } else if (currentMinutes < scheduleEntries[0].start) {
+          display.textContent = "Before school";
+          detail.textContent = `Classes start at ${formatScheduleTime(scheduleEntries[0].start)}.`;
+        } else {
+          display.textContent = "After school";
+          detail.textContent = `Classes ended at ${formatScheduleTime(scheduleEntries[scheduleEntries.length - 1].end)}.`;
+        }
+      }
+
+      updateCurrentHour();
+      window.setInterval(updateCurrentHour, 15000);
+    </script>
   </body>
 </html>
