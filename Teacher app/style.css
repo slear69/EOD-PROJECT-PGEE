@@ -72,6 +72,16 @@
     outline: 3px solid var(--input-focus-color);
     border-color: var(--input-focus-color);
 }
+.form-message{
+    color: #ff7373;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 12px 8% 0;
+    text-align: center;
+}
+.form-message[data-type="success"]{
+    color: #71d99a;
+}
 .window img{
     width: 6%;
     height: 7%;
@@ -81,7 +91,7 @@
 }
 .window button{
     position: absolute;
-    top: 75%;
+    top: 11cm;
     left: 30%;
     width: 40%;
     height: 7%;

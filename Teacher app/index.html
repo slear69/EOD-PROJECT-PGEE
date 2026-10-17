@@ -13,13 +13,14 @@
         <form id = "form" class = "form">
           <label class = "label" >
              <span class = "label-text" id = "NAMEtext">Username:</span>
-             <input type="text" id = "username" class = "input" placeholder="Create your username" spellcheck="false">
+             <input type="text" id = "username" class = "input" placeholder="Create your username" spellcheck="false" aria-describedby="signUpMessage">
           </label>
           <label class = "label" >
              <span class = "label-text" id = "PASSWORDtext">Password:</span>
-             <input type="password" id = "password" class = "input" placeholder="Create your password  " spellcheck="false">
+             <input type="password" id = "password" class = "input" placeholder="Create your password  " spellcheck="false" aria-describedby="signUpMessage">
           </label>
         </form>
+        <p class="form-message" id="signUpMessage" role="alert" aria-live="polite" hidden></p>
      </div>
      <!---For Log in window-->
      <div class = "window" id = "windowLog" style = "left:50%;">
@@ -30,13 +31,14 @@
         <form id = "formLog" class = "form">
           <label class = "label" >
              <span class = "label-text" id = "textLog">Username:</span>
-             <input type="text" id = "NAMEtextLog" class = "input" placeholder="Enter your username" spellcheck="false">
+             <input type="text" id = "NAMEtextLog" class = "input" placeholder="Enter your username" spellcheck="false" aria-describedby="loginError">
           </label>
           <label class = "label" >
              <span class = "label-text" id = "passLog">Password:</span>
-             <input type="password" id = "PASSWORDtextLog" class = "input" placeholder="Enter your password  " spellcheck="false">
+             <input type="password" id = "PASSWORDtextLog" class = "input" placeholder="Enter your password  " spellcheck="false" aria-describedby="loginError">
           </label>
         </form>
+        <p class="form-message" id="loginError" role="alert" aria-live="polite" hidden></p>
      </div>
     <script src="Functions.js">
      </script>    

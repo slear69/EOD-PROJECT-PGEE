@@ -43,60 +43,84 @@ function drag(element) { //this function was coppied from another of my projects
 
 }
 function SaveInfo() {
+  const signUpMessage = document.getElementById("signUpMessage");
   if (!Username_required() || !Password_required()) return;
 
   const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const password = document.getElementById("password").value;
   const accounts = JSON.parse(localStorage.getItem("accounts") || "{}");
 
   if (Object.prototype.hasOwnProperty.call(accounts, username)) {
-    alert("This username already exists!");
+    showFormMessage(signUpMessage, "This username already exists.");
     return;
   }
 
   accounts[username] = { password };
   localStorage.setItem("accounts", JSON.stringify(accounts));
-  alert("Account saved!");
-  signInWindow.style.display = "none";
+  showFormMessage(signUpMessage, "Account created successfully. You can now log in.", "success");
 }
 
 function Login() {
   const username = document.getElementById("NAMEtextLog").value.trim();
-  const password = document.getElementById("PASSWORDtextLog").value.trim();
+  const password = document.getElementById("PASSWORDtextLog").value;
+  const loginError = document.getElementById("loginError");
   const accounts = JSON.parse(localStorage.getItem("accounts") || "{}");
 
-  if (!Object.prototype.hasOwnProperty.call(accounts, username)) {
-    alert("Username does not exist!");
+  if (!Object.prototype.hasOwnProperty.call(accounts, username) ||
+      accounts[username].password !== password) {
+    loginError.textContent = "Incorrect username or password. Please try again.";
+    loginError.hidden = false;
+    document.getElementById("PASSWORDtextLog").focus();
     return;
   }
 
-  if (accounts[username].password !== password) {
-    alert("Incorrect password!");
-    return;
-  }
-
+  loginError.hidden = true;
+  loginError.textContent = "";
   localStorage.setItem("currentTeacher", username);
   window.location.href = "dashboard.html";
 }
 
+function showFormMessage(messageElement, message, type = "error") {
+  messageElement.textContent = message;
+  messageElement.dataset.type = type;
+  messageElement.hidden = false;
+}
+
+document.getElementById("form").addEventListener("input", function () {
+  const signUpMessage = document.getElementById("signUpMessage");
+  signUpMessage.hidden = true;
+  signUpMessage.textContent = "";
+});
+
+document.getElementById("formLog").addEventListener("input", function () {
+  const loginError = document.getElementById("loginError");
+  loginError.hidden = true;
+  loginError.textContent = "";
+});
+
 function Username_required() {
    const usernameInput = document.getElementById("username");
    if (usernameInput.value === ""|| usernameInput.value.length <= 4) {
-         usernameInput.style.setProperty('--input-focus-color', '#ff0000')
+         usernameInput.style.setProperty('--input-focus-color', '#ff0000');
          usernameInput.focus();
-         usernameInput.select()
-         alert("Username is required and must be at least 5 characters long.");
+         usernameInput.select();
+         showFormMessage(
+           document.getElementById("signUpMessage"),
+           "Username is required and must be at least 5 characters long."
+         );
         return false;
     }
     return true;
 }
 function Password_required() {
    const passwordInput = document.getElementById("password");
-   const value = passwordInput.value.trim();
-   if (value === "" || !Number.isFinite(Number(value))|| passwordInput.value.length < 8) {
+   if (passwordInput.value.length < 8) {
      passwordInput.style.setProperty("--input-focus-color", "#ff0000");
      passwordInput.focus();
-     alert("Password is required and must be a number with at least 8 characters.");
+     showFormMessage(
+       document.getElementById("signUpMessage"),
+       "Password must be at least 8 characters long."
+     );
      return false;
     }
     return true;
